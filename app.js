@@ -5,17 +5,20 @@
 
 var express = require('express'),
   routes = require('./routes'),
-  api = require('./routes/api'),
+ resource = require('express-resource'),
+  //api = require('./routes/api.js'),
   http = require('http'),
   path = require('path');
 
-var app = module.exports = express();
-var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
+var app = express();
+
+
 
 /**
  * Configuration
  */
+
+
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -38,20 +41,32 @@ if (app.get('env') === 'production') {
 };
 
 
+
 /**
  * Routes
  */
+
+
 
 // serve index and view partials
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
 // JSON API
-app.get('/api/name', api.name);
+//app.get('/api/name', api.name);
+
+
+
+var projects = app.resource('api/projects', require('./controllers/project'));
+var experiments = app.resource('api/experiments', require('./controllers/experiment'));
+projects.add(experiments);
+
 
 // redirect all others to the index (HTML5 history)
-app.get('*', routes.index);
+//app.get('*', routes.index);
 
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
 // Socket.io Communication
 io.sockets.on('connection', require('./routes/socket'));
 

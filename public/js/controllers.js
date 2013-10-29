@@ -8,7 +8,10 @@ angular.module('myApp.controllers', []).
       $scope.name = data.name;
     });
   }).
-  controller('ProjectsCtrl', function ($scope, socket) {
+  controller('ProjectsCtrl', function ($scope, socket, Restangular) {
+	var projects = Restangular.all('projects');
+$scope.allProjects = projects.getList();
+console.log(projects);
     socket.on('send:time', function (data) {
       $scope.time = data.time;
     });

@@ -10,13 +10,14 @@ angular.module('myApp', [
 
 
 'ui.bootstrap',
+'restangular',
   // 3rd party dependencies
   'btford.socket-io'
 ]).
 config(function ($routeProvider, $locationProvider) {
   $routeProvider.
     when('/projects', {
-      templateUrl: 'partials/partial1',
+      templateUrl: 'partials/projects',
       controller: 'ProjectsCtrl'
     }).
     when('/models', {
@@ -36,4 +37,6 @@ config(function ($routeProvider, $locationProvider) {
     });
 
   $locationProvider.html5Mode(true);
+}).config(function(RestangularProvider) {
+    RestangularProvider.setBaseUrl('/api');
 });
