@@ -8,11 +8,12 @@ angular.module('myApp.controllers', []).
       $scope.name = data.name;
     });
   }).
-  controller('MyCtrl1', function ($scope, socket) {
+  controller('ProjectsCtrl', function ($scope, socket) {
     socket.on('send:time', function (data) {
       $scope.time = data.time;
     });
   }).
-  controller('MyCtrl2', function ($scope) {
+  controller('NavCtrl',['$scope','$location','$route','$routeParams', function($scope,$location,$route, $routeParams) {
     // write Ctrl here
-  });
+console.log($routeParams);
+  }]);
