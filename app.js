@@ -63,7 +63,7 @@ projects.add(experiments);
 
 
 // redirect all others to the index (HTML5 history)
-//app.get('*', routes.index);
+app.get('*', routes.index);
 
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);

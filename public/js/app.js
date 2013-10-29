@@ -11,6 +11,7 @@ angular.module('myApp', [
 
 'ui.bootstrap',
 'restangular',
+'ngGrid',
   // 3rd party dependencies
   'btford.socket-io'
 ]).
@@ -39,4 +40,7 @@ config(function ($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 }).config(function(RestangularProvider) {
     RestangularProvider.setBaseUrl('/api');
+RestangularProvider.setRestangularFields({
+  id: "_id"
+});
 });

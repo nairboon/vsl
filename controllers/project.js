@@ -1,13 +1,22 @@
+var Datastore = require('nedb')
+  , db = new Datastore({ filename: 'db.ne', autoload: true });
 
 exports.index = function(req, res){
-  res.send('forum index');
-};
-
-exports.new = function(req, res){
-  res.send('new forum');
+db.find({ type: 'project' }, function (err, docs) {
+    res.send(docs);
+});
 };
 
 exports.create = function(req, res){
+console.log("crate project")
+var doc = { type: 'project',
+	name: "Unnamed Project"
+}
+db.insert(doc, function (err, newDoc) {   // Callback is optional
+
+
+});
+
   res.send('create forum');
 };
 
@@ -16,11 +25,18 @@ exports.show = function(req, res){
 };
 
 exports.edit = function(req, res){
-  res.send('edit forum ' + req.forum.title);
+  res.send('edit forum ' + req);
 };
 
 exports.update = function(req, res){
-  res.send('update forum ' + req.forum.title);
+
+db.update({ _id: req.params.project }, { $set: { name: req.body.name } }, function (err, numReplaced) {
+  console.log("update",req)
+  res.send('update forum ' + req);
+});
+
+
+
 };
 
 exports.destroy = function(req, res){
