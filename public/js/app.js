@@ -19,15 +19,15 @@ config(function ($routeProvider, $locationProvider) {
   $routeProvider.
     when('/projects', {
       templateUrl: 'partials/projects',
-      controller: 'ProjectsCtrl'
+      controller: 'ProjectOverviewCtrl'
     }).
     when('/models', {
       templateUrl: 'partials/partial2',
       controller: 'MyCtrl2'
     }).
-    when('/experiments', {
-      templateUrl: 'partials/partial2',
-      controller: 'MyCtrl2'
+    when('/projects/:project', {
+      templateUrl: 'partials/projects.detail',
+      controller: 'ProjectDetailCtrl'
     }).
     when('/runs', {
       templateUrl: 'partials/partial2',

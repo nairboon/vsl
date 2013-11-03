@@ -8,7 +8,7 @@ angular.module('myApp.controllers', []).
       $scope.name = data.name;
     });
   }).
-  controller('ProjectsCtrl', function ($scope, socket, Restangular) {
+  controller('ProjectOverviewCtrl', function ($scope, socket, Restangular) {
 	$scope.projects = Restangular.all('projects');
 $scope.allProjects = $scope.projects.getList();
 
@@ -44,6 +44,10 @@ console.log($scope.projects);
 $scope.allProjects = $scope.projects.getList();
 };
   }).
+controller('ProjectDetailCtrl',['$scope','$location','$route','$routeParams', function($scope,$location,$route, $routeParams) {
+    // write Ctrl here
+console.log($routeParams);
+  }]).
   controller('NavCtrl',['$scope','$location','$route','$routeParams', function($scope,$location,$route, $routeParams) {
     // write Ctrl here
 console.log($routeParams);
