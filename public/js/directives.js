@@ -2,8 +2,9 @@
 
 /* Directives */
 
-angular.module('myApp.directives', []).
-  directive('appVersion', function (version) {
+var myApp = angular.module('myApp.directives', [])
+
+myApp.directive('appVersion', function (version) {
     return function(scope, elm, attrs) {
       elm.text(version);
     };
@@ -17,3 +18,35 @@ angular.module('myApp.directives', []).
     });
   };
 });
+
+myApp.directive('projectFocus', function todoFocus($timeout) {
+        return function (scope, elem, attrs) {
+                scope.$watch(attrs.todoFocus, function (newVal) {
+                        if (newVal) {
+                                $timeout(function () {
+                                        elem[0].focus();
+                                }, 0, false);
+                        }
+                });
+        };
+});
+
+myApp.directive('projectEscape', function () {
+        var ESCAPE_KEY = 27;
+        return function (scope, elem, attrs) {
+                elem.bind('keydown', function (event) {
+                        if (event.keyCode === ESCAPE_KEY) {
+                                scope.$apply(attrs.todoEscape);
+                        }
+                });
+        };
+});
+
+myApp.directive('projectBlur', function () {
+        return function (scope, elem, attrs) {
+                elem.bind('blur', function () {
+                        scope.$apply(attrs.todoBlur);
+                });
+        };
+});
+

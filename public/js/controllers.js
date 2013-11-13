@@ -9,9 +9,52 @@ angular.module('myApp.controllers', []).
     });
   }).
   controller('ProjectOverviewCtrl', function ($scope, socket, Restangular) {
-	$scope.projects = Restangular.all('projects');
-$scope.allProjects = $scope.projects.getList();
+  	$scope.projects_api = Restangular.all('projects');
+var Projects = $scope.allProjects = $scope.projects_api.getList();
+console.log($scope.allProjects)
+          $scope.editedProject = null;
+          
+    $scope.addProject = function () {
+                var newProject = $scope.newProject.trim();
+                if (!newProject.length) {
+                        return;
+                }
 
+                Projects.push({
+                        title: newProject,
+                        completed: false
+                });
+
+                $scope.newProject = '';
+        };
+
+        $scope.editProject = function (Project) {
+                $scope.editedProject = Project;
+                // Clone the original Project to restore it on demand.
+                $scope.originalProject = angular.extend({}, Project);
+        };
+
+        $scope.doneEditing = function (Project) {
+                $scope.editedProject = null;
+                Project.title = Project.title.trim();
+
+                if (!Project.title) {
+                        $scope.removeProject(Project);
+                }
+        };
+
+        $scope.revertEditing = function (Project) {
+                Projects[Projects.indexOf(Project)] = $scope.originalProject;
+                $scope.doneEditing($scope.originalProject);
+        };
+
+        $scope.removeProject = function (Project) {
+                Projects.splice(Projects.indexOf(Project), 1);
+        };
+  
+  
+  
+/*
 
   var cellEditableTemplate = "<input style=\"width: 90%\" step=\"any\" ng-class=\"'colt' + col.index\" ng-input=\"COL_FIELD\" ng-blur=\"updateEntity(col, row, cellValue)\" ng-model='cellValue'/>";
 
@@ -33,7 +76,6 @@ row.entity.put()
     //row.entity[column.field] = cellValue;
   };
 
-
 console.log($scope.projects);
     socket.on('send:time', function (data) {
       $scope.time = data.time;
@@ -42,10 +84,11 @@ console.log($scope.projects);
  $scope.newProject = function(){
 	$scope.projects.post({name:"Unnamed Project"})
 $scope.allProjects = $scope.projects.getList();
-};
+};*/
   }).
 controller('ProjectDetailCtrl',['$scope','$location','$route','$routeParams', function($scope,$location,$route, $routeParams) {
-    // write Ctrl here
+    $scope.projects = Restangular.all('projects');
+
 console.log($routeParams);
   }]).
   controller('NavCtrl',['$scope','$location','$route','$routeParams', function($scope,$location,$route, $routeParams) {

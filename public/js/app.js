@@ -8,7 +8,7 @@ angular.module('myApp', [
   'myApp.services',
   'myApp.directives',
 
-
+'ngRoute',
 'ui.bootstrap',
 'restangular',
 'ngGrid',
@@ -18,6 +18,14 @@ angular.module('myApp', [
 config(function ($routeProvider, $locationProvider) {
   $routeProvider.
     when('/projects', {
+      templateUrl: 'partials/projects',
+      controller: 'ProjectOverviewCtrl'
+    }).
+    when('/addProject', {
+      templateUrl: 'partials/addProject',
+      controller: 'AddProjectCtrl'
+    }).
+    when('/projects2', {
       templateUrl: 'partials/projects',
       controller: 'ProjectOverviewCtrl'
     }).

@@ -1,9 +1,9 @@
-p The current time is {{time}}
+p There are {{allProjects.length}} posts
+ul#todo-list
+	li(ng-repeat='project in allProjects track by $index', ng-class='{editing: todo == editedProject}')
+		.view
+			label(ng-dblclick='editTodo(todo)') {{project.name}}
+			button.destroy(ng-click='removeTodo(project)')
+		form(ng-submit='doneEditing(project)')
+		input.edit(ng-trim='false', ng-model='project.name', project-escape='revertEditing(project)', project-blur='doneEditing(project)', project-focus='project == editedProject')
 
-ul
- li(ng-repeat='project in allProjects')
-  a(href='/projects/{{project._id}}')
-   {{project.name}} 
-
-.gridStyle(ng-grid='gridOptions')
-button(ng-click='newProject()') Add New Project
