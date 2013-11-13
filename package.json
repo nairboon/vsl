@@ -6,6 +6,7 @@
     "socket.io": "~0.9.16",
     "express": "~3.2.6",
     "jade": "~0.31.2",
-    "nedb": "~0.8.12"
+    "nedb": "~0.8.12",
+    "express-resource": "~1.0.0"
   }
 }

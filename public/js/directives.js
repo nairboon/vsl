@@ -21,7 +21,7 @@ myApp.directive('appVersion', function (version) {
 
 myApp.directive('projectFocus', function todoFocus($timeout) {
         return function (scope, elem, attrs) {
-                scope.$watch(attrs.todoFocus, function (newVal) {
+                scope.$watch(attrs.projectFocus, function (newVal) {
                         if (newVal) {
                                 $timeout(function () {
                                         elem[0].focus();
@@ -36,7 +36,7 @@ myApp.directive('projectEscape', function () {
         return function (scope, elem, attrs) {
                 elem.bind('keydown', function (event) {
                         if (event.keyCode === ESCAPE_KEY) {
-                                scope.$apply(attrs.todoEscape);
+                                scope.$apply(attrs.projectEscape);
                         }
                 });
         };
@@ -45,7 +45,7 @@ myApp.directive('projectEscape', function () {
 myApp.directive('projectBlur', function () {
         return function (scope, elem, attrs) {
                 elem.bind('blur', function () {
-                        scope.$apply(attrs.todoBlur);
+                        scope.$apply(attrs.projectBlur);
                 });
         };
 });

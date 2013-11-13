@@ -11,7 +11,7 @@ angular.module('myApp', [
 'ngRoute',
 'ui.bootstrap',
 'restangular',
-'ngGrid',
+//'ngGrid',
   // 3rd party dependencies
   'btford.socket-io'
 ]).

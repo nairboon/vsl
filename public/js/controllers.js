@@ -10,8 +10,12 @@ angular.module('myApp.controllers', []).
   }).
   controller('ProjectOverviewCtrl', function ($scope, socket, Restangular) {
   	$scope.projects_api = Restangular.all('projects');
-var Projects = $scope.allProjects = $scope.projects_api.getList();
-console.log($scope.allProjects)
+ var ap = $scope.projects_api.getList();
+ap.then(function(data) {
+   $scope.allProjects = data;
+console.log(data)
+})
+//console.log(Projects)
           $scope.editedProject = null;
           
     $scope.addProject = function () {
@@ -93,5 +97,5 @@ console.log($routeParams);
   }]).
   controller('NavCtrl',['$scope','$location','$route','$routeParams', function($scope,$location,$route, $routeParams) {
     // write Ctrl here
-console.log($routeParams);
+	//console.log($routeParams);
   }]);
