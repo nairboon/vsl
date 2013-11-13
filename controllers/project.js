@@ -10,7 +10,7 @@ db.find({ type: 'project' }, function (err, docs) {
 exports.create = function(req, res){
 console.log("crate project")
 var doc = { type: 'project',
-	name: "Unnamed Project"
+	name: req.body.name
 }
 db.insert(doc, function (err, newDoc) {   // Callback is optional
 
@@ -31,7 +31,7 @@ exports.edit = function(req, res){
 exports.update = function(req, res){
 
 db.update({ _id: req.params.project }, { $set: { name: req.body.name } }, function (err, numReplaced) {
-  console.log("update",req)
+  //console.log("update",req)
   res.send('update forum ' + req);
 });
 
@@ -40,7 +40,12 @@ db.update({ _id: req.params.project }, { $set: { name: req.body.name } }, functi
 };
 
 exports.destroy = function(req, res){
-  res.send('destroy forum ' + req.forum.title);
+db.remove({ _id: req.params.project } , function (err, numReplaced) {
+  //console.log("update",req)
+    res.send('destroy project ' + req.params.project);
+});
+
+
 };
 
 exports.load = function(id, fn){

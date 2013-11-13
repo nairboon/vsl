@@ -10,12 +10,17 @@ angular.module('myApp.controllers', []).
   }).
   controller('ProjectOverviewCtrl', function ($scope, socket, Restangular) {
   	$scope.projects_api = Restangular.all('projects');
- var ap = $scope.projects_api.getList();
+ 
+$scope.updateProjects = function() {
+var ap = $scope.projects_api.getList();
 ap.then(function(data) {
    $scope.allProjects = data;
-console.log(data)
+
 })
-//console.log(Projects)
+
+}
+$scope.updateProjects()
+
           $scope.editedProject = null;
           
     $scope.addProject = function () {
@@ -23,11 +28,10 @@ console.log(data)
                 if (!newProject.length) {
                         return;
                 }
+console.log(newProject)
+             	$scope.projects_api.post({name:newProject})
+		$scope.updateProjects()
 
-                Projects.push({
-                        title: newProject,
-                        completed: false
-                });
 
                 $scope.newProject = '';
         };
@@ -40,9 +44,9 @@ console.log(data)
 
         $scope.doneEditing = function (Project) {
                 $scope.editedProject = null;
-                Project.title = Project.title.trim();
-
-                if (!Project.title) {
+                Project.name = Project.name.trim();
+		Project.put()
+                if (!Project.name) {
                         $scope.removeProject(Project);
                 }
         };
@@ -53,7 +57,8 @@ console.log(data)
         };
 
         $scope.removeProject = function (Project) {
-                Projects.splice(Projects.indexOf(Project), 1);
+                $scope.allProjects.splice($scope.allProjects.indexOf(Project), 1);
+		Project.remove()
         };
   
   
