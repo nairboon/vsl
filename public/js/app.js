@@ -34,7 +34,7 @@ config(function ($routeProvider, $locationProvider) {
       controller: 'MyCtrl2'
     }).
     when('/projects/:project', {
-      templateUrl: 'partials/projects.detail',
+      templateUrl: 'partials/ProjectsDetailView',
       controller: 'ProjectDetailCtrl'
     }).
     when('/runs', {

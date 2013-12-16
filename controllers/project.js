@@ -4,6 +4,7 @@ var Datastore = require('nedb')
 exports.index = function(req, res){
 db.find({ type: 'project' }, function (err, docs) {
     res.send(docs);
+    //console.log(docs);
 });
 };
 
@@ -21,7 +22,12 @@ db.insert(doc, function (err, newDoc) {   // Callback is optional
 };
 
 exports.show = function(req, res){
-  res.send('show forum ' + req.forum.title);
+  console.log("show",req.params)
+  db.find({ _id: req.params.project }, function (err, docs) {
+    res.send(docs[0]);
+   // console.log(docs);
+});
+
 };
 
 exports.edit = function(req, res){
@@ -31,7 +37,7 @@ exports.edit = function(req, res){
 exports.update = function(req, res){
 
 db.update({ _id: req.params.project }, { $set: { name: req.body.name } }, function (err, numReplaced) {
-  //console.log("update",req)
+  console.log("update",req.params)
   res.send('update forum ' + req);
 });
 

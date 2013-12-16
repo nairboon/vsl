@@ -90,9 +90,6 @@
 	border-top: 1px dotted #adadad;
 }
 
-label[for='toggle-all'] {
-	display: none;
-}
 
 #toggle-all {
 	position: absolute;
@@ -117,6 +114,7 @@ label[for='toggle-all'] {
 
 #todo-list {
 	margin: 0;
+	width: 600px;
 	padding: 0;
 	list-style: none;
 }
@@ -180,13 +178,18 @@ label[for='toggle-all'] {
 	position: relative;
 }
 
-#todo-list li label {
-	white-space: pre;
-	word-break: break-word;
-	padding: 15px 60px 15px 15px;
-	margin-left: 45px;
-	display: block;
+#todo-list li a {
+	padding: 15px 30px 15px 15px;
+	margin-left: 25px;
 	line-height: 1.2;
+	-webkit-transition: color 0.4s;
+	transition: color 0.4s;
+}
+#todo-list .editlink {
+
+	margin-left: 45px;
+
+	line-height: 0.9;
 	-webkit-transition: color 0.4s;
 	transition: color 0.4s;
 }

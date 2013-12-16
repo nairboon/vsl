@@ -95,10 +95,16 @@ console.log($scope.projects);
 $scope.allProjects = $scope.projects.getList();
 };*/
   }).
-controller('ProjectDetailCtrl',['$scope','$location','$route','$routeParams', function($scope,$location,$route, $routeParams) {
-    $scope.projects = Restangular.all('projects');
+controller('ProjectDetailCtrl',['$scope','$location','$route','$routeParams', 'Restangular', function($scope,$location,$route, $routeParams, Restangular) {
+    var p = Restangular.one('projects',$routeParams.project).get();
+
+p.then(function(data) {
+   $scope.project = data;
+   //console.log(data,$scope.project)
+})
 
 console.log($routeParams);
+
   }]).
   controller('NavCtrl',['$scope','$location','$route','$routeParams', function($scope,$location,$route, $routeParams) {
     // write Ctrl here

@@ -2,7 +2,8 @@ p There are {{allProjects.length}} posts
 ul#todo-list
 	li(ng-repeat='project in allProjects track by $index', ng-class='{editing: project == editedProject}')
 		.view
-			label(ng-dblclick='editProject(project)') {{project.name}}
+			a(href="/projects/{{project._id}}") {{project.name}}
+			a.editlink(ng-click='editProject(project)') [edit]
 			button.destroy(ng-click='removeProject(project)')
 		form(ng-submit='doneEditing(project)')
 		input.edit(ng-trim='false', ng-model='project.name', project-escape='revertEditing(project)', project-blur='doneEditing(project)', project-focus='project == editedProject')
