@@ -30,9 +30,14 @@ app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
 
+app.configure('development', function(){
+  app.use(express.errorHandler());
+  app.locals.pretty = true;
+});
+
 // development only
 if (app.get('env') === 'development') {
-  app.use(express.errorHandler());
+  //app.use(express.errorHandler());
 }
 
 // production only
