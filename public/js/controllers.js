@@ -107,6 +107,18 @@ console.log($routeParams);
 
   }]).
   controller('NavCtrl',['$scope','$location','$route','$routeParams', function($scope,$location,$route, $routeParams) {
+  
+  $scope.$on('$routeChangeSuccess', function(ev,rd) {
+  	console.log("pro:",rd.params.project)
+  	if(rd.params.project !== undefined) {
+    console.log("in project:")
+    //$scope.project = {}
+      $scope.project = $routeParams.project;
+  	}
+  })
+  console.log("out pro",$routeParams)
+  
+
     // write Ctrl here
-	//console.log($routeParams);
+console.log("po:",$routeParams.project);
   }]);

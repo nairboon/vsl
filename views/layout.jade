@@ -10,7 +10,7 @@ html(ng-app="myApp")
     link(rel='stylesheet', href='/css/app.css')
   body
    header
-    nav.navbar.navbar-default
+    nav.navbar.navbar-default(ng-controller='NavCtrl')
       .navbar-header
         a.navbar-brand(href='#') VSL
       
@@ -19,9 +19,9 @@ html(ng-app="myApp")
               li
                 a(href='/projects') Projects
               li
-                a(href='#getting_started') Getting started
+                a(href='/projects/{{project}}/models') Models
      #nav-bars-container(ng-controller='NavCtrl')
-      a(href='#/{{course.id}}') Foo
+      a(href='#/{{project.id}}') Foo
 
     block body
 
