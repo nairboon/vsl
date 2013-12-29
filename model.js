@@ -26,6 +26,7 @@ var splitter = proc.stderr.pipe(StreamSplitter("\n"));
 splitter.encoding = "utf8";
 
 Model.ParamDesc = [];
+Model.AbstRuntimeParams = [];
 
 splitter.on("token", function(token) {
  if(token.indexOf("Usage of") > -1) {
@@ -36,7 +37,12 @@ ss.check(/\s*-(.*)=(.*):\s(.*)/)
 var p = ss.captures()
 if(p.length == 3){
  tmp = {name: p[0], default: p[1], desc: p[2]}
- Model.ParamDesc.push(tmp)
+  if(token.indexOf("abst.") > -1) {
+  Model.AbstRuntimeParams.push(tmp)
+ } else {
+
+   Model.ParamDesc.push(tmp)
+ }
 // console.log(tmp)
 }
 

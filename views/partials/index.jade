@@ -8,24 +8,33 @@
       .row.clearfix
         .col-md-3.column
           form(role='form')
-            .form-group
-              label(for='exampleInputEmail1') Email address
-              input#exampleInputEmail1.form-control(type='email')
-            .form-group
-              label(for='exampleInputPassword1') Password
-              input#exampleInputPassword1.form-control(type='password')
+             div(ng-repeat='param in model')
+              .form-group
+                label(for='{{param.name}}') {{param.name}}
+                input.form-control(ng-model='param.default')
             button.btn.btn-default(type='submit') Start
-            button.btn.btn-default(type='submit') Stop
           h2
             | Model Description
           p
             | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
         .col-md-9.column
-          ul.nav.nav-pills
-            li.active
-              a(href='#') Home
-            li
-              a(href='#') Profile
-          img(alt='140x140', src='http://lorempixel.com/140/140/')
+
           .progress
-            .progress-bar.progress-success
+           .progress-bar.progress-success
+           ol
+                li
+                  | Lorem ipsum dolor sit amet
+                li
+                  | Consectetur adipiscing elit
+                li
+                  | Integer molestie lorem at massa
+                li
+                  | Facilisis in pretium nisl aliquet
+                li
+                  | Nulla volutpat aliquam velit
+                li
+                  | Faucibus porta lacus fringilla vel
+                li
+                  | Aenean sit amet erat nunc
+                li
+                  | Eget porttitor lorem

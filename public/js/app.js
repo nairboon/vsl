@@ -41,6 +41,10 @@ config(function ($routeProvider, $locationProvider) {
       templateUrl: 'partials/partial2',
       controller: 'MyCtrl2'
     }).
+        when('/analytics/:id', {
+      templateUrl: 'partials/analytics',
+      controller: 'AnalyticsCtrl'
+    }).
      when('/index', {
       templateUrl: 'partials/index',
       controller: 'IndexCtrl'
