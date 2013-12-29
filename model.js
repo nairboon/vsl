@@ -4,11 +4,21 @@ var StreamSplitter = require("stream-splitter");
 var StringScanner = require("StringScanner");
 
 var models = "abmmodels";
-
+/*
 fs.readdir(models,function(err,files){
 console.log(files);
+
+})
+*/
+
+exports.load = function(file,cb) {
+
 /* read flags*/
-var proc = spawn("abmmodels/"+files[0],["--help"]);
+var proc = spawn(file,["--help"]);
+proc.on("error",function(err){
+console.log("model is not executable?")
+cb(err,null)
+})
 var splitter = proc.stderr.pipe(StreamSplitter("\n"));
 
 splitter.encoding = "utf8";
@@ -20,12 +30,8 @@ splitter.on("token", function(token) {
 var ss = new StringScanner(token);
 ss.check(/\s*-(.*)=(.*):\s(.*)/)
 var p = ss.captures()
-
+cb(null,p)
 console.log(p)
 });
-
-
-
-})
-
+}
 

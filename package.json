@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "abst",
   "version": "0.0.0",
   "private": true,
   "dependencies": {
@@ -8,5 +8,9 @@
     "jade": "~0.31.2",
     "nedb": "~0.8.12",
     "express-resource": "~1.0.0"
+  },
+  "preferGlobal": "true",
+  "bin": {
+    "abst" : "abst.js"
   }
 }
