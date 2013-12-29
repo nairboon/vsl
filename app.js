@@ -63,8 +63,8 @@ app.get('/partials/:name', routes.partials);
 
 
 var projects = app.resource('api/projects', require('./controllers/project'));
-var experiments = app.resource('api/experiments', require('./controllers/experiment'));
-projects.add(experiments);
+var experiments = app.resource('api/model', require('./controllers/model'));
+//projects.add(experiments);
 
 
 // redirect all others to the index (HTML5 history)

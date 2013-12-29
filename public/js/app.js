@@ -41,8 +41,12 @@ config(function ($routeProvider, $locationProvider) {
       templateUrl: 'partials/partial2',
       controller: 'MyCtrl2'
     }).
+     when('/index', {
+      templateUrl: 'partials/index',
+      controller: 'IndexCtrl'
+    }).
     otherwise({
-      redirectTo: '/projects'
+      redirectTo: '/index'
     });
 
   $locationProvider.html5Mode(true);

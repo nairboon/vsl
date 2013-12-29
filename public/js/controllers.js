@@ -106,6 +106,17 @@ p.then(function(data) {
 console.log($routeParams);
 
   }]).
+  controller('IndexCtrl',['$scope','$location','$route','$routeParams', 'Restangular', function($scope,$location,$route, $routeParams, Restangular) {
+    var p = Restangular.one('model').getList();
+
+p.then(function(data) {
+   $scope.model = data;
+   console.log(data)
+})
+
+console.log($routeParams);
+
+  }]).
   controller('NavCtrl',['$scope','$location','$route','$routeParams', function($scope,$location,$route, $routeParams) {
   
   $scope.$on('$routeChangeSuccess', function(ev,rd) {
