@@ -7,12 +7,12 @@
               small Subtext for header
       .row.clearfix
         .col-md-3.column
-          form(role='form')
+          form(role='form',ng-submit='runModel()')
              div(ng-repeat='param in model')
               .form-group
                 label(for='{{param.name}}') {{param.name}}
                 input.form-control(ng-model='param.default')
-            button.btn.btn-default(type='submit') Start
+             button.btn.btn-default(type='submit') Start
           h2
             | Model Description
           p

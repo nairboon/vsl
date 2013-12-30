@@ -107,12 +107,20 @@ console.log($routeParams);
 
   }]).
   controller('IndexCtrl',['$scope','$location','$route','$routeParams', 'Restangular', function($scope,$location,$route, $routeParams, Restangular) {
-    var p = Restangular.one('model').getList();
+    $scope.model_api = Restangular.all('model')
+    
+    var p = $scope.model_api.getList();
 
 p.then(function(data) {
    $scope.model = data;
    console.log(data)
 })
+
+ $scope.runModel = function () {
+ console.log("running model")
+ //$scope.model_api.customPOST({model: $scope.model},"run")
+ $scope.model_api.post({model: $scope.model})
+ }
 
 console.log($routeParams);
 

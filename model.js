@@ -52,5 +52,9 @@ splitter.on("done", function() {
 });
 }
 
+Model.run = function(ParamDesc,done,journalupdate) {
+console.log(ParamDesc)
+}
+
 module.exports = Model;
 

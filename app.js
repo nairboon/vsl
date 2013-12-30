@@ -63,7 +63,8 @@ app.get('/partials/:name', routes.partials);
 
 
 var projects = app.resource('api/projects', require('./controllers/project'));
-var experiments = app.resource('api/model', require('./controllers/model'));
+var model = app.resource('api/model', require('./controllers/model'));
+//model.map('run', '/user', favs.buses);
 //projects.add(experiments);
 
 
@@ -73,7 +74,7 @@ app.get('*', routes.index);
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 // Socket.io Communication
-//	io.sockets.on('connection', require('./routes/socket'));
+	io.sockets.on('connection', require('./routes/socket'));
 
 /**
  * Start Server
