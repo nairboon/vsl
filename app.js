@@ -74,7 +74,7 @@ app.get('*', routes.index);
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 // Socket.io Communication
-	io.sockets.on('connection', require('./model.js').stream);
+io.sockets.on('connection', require('./model.js').stream);
 
 /**
  * Start Server

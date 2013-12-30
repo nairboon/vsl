@@ -106,7 +106,7 @@ p.then(function(data) {
 console.log($routeParams);
 
   }]).
-  controller('IndexCtrl',['$scope','$location','$route','$routeParams', 'Restangular', function($scope,$location,$route, $routeParams, Restangular) {
+  controller('IndexCtrl',['$scope','$location','$route','$routeParams', 'Restangular','socket', function($scope,$location,$route, $routeParams, Restangular,socket) {
     $scope.model_api = Restangular.all('model')
     
     var p = $scope.model_api.getList();
@@ -120,8 +120,13 @@ p.then(function(data) {
  console.log("running model")
  //$scope.model_api.customPOST({model: $scope.model},"run")
  $scope.model_api.post({model: $scope.model})
+ 
  }
 
+    socket.on('model:journal', function (data) {
+      $scope.journal = data;
+    });
+    
 console.log($routeParams);
 
   }]).

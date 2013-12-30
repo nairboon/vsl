@@ -108,7 +108,8 @@ var rl = readline.createInterface({
 rl.on('line', function(line) {
 
 var content = JSON.parse(line)
-    console.log(content);
+ Model.socketio.emit('model:journal', content);
+    //console.log(content);
     
 });
 
@@ -120,9 +121,6 @@ var content = JSON.parse(line)
 
 proc.stdout.on("data",function(data){
 console.log(data.toString())
-
-
-
 })
 
 
@@ -144,6 +142,7 @@ done(null,null)
 
 Model.stream = function (socket) {
  Model.socketio = socket
+ console.log("SOCKET READY")
 }
 
 module.exports = Model;
