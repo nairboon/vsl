@@ -18,23 +18,12 @@
           p
             | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
         .col-md-9.column
-          .progress
-           .progress-bar.progress-success
-          p Journal: {{journal}}
-          ol
-                li
-                  | Lorem ipsum dolor sit amet
-                li
-                  | Consectetur adipiscing elit
-                li
-                  | Integer molestie lorem at massa
-                li
-                  | Facilisis in pretium nisl aliquet
-                li
-                  | Nulla volutpat aliquam velit
-                li
-                  | Faucibus porta lacus fringilla vel
-                li
-                  | Aenean sit amet erat nunc
-                li
-                  | Eget porttitor lorem
+          form(ng-submit='showVisualization()')
+            strong Visualization Speed {{vis.speed}} runs/s
+            ui-slider.ui-slider-default
+             ui-slider-thumb(ng-model='vis.speed')
+            strong Visualization Progress {{vis.runs}} runs
+            ui-slider.ui-slider-default
+             ui-slider-thumb(ng-model='vis.runs')             
+            button.btn.btn-default(type='submit') Restart
+

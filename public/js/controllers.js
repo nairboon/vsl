@@ -109,11 +109,19 @@ console.log($routeParams);
   controller('IndexCtrl',['$scope','$location','$route','$routeParams', 'Restangular','socket', function($scope,$location,$route, $routeParams, Restangular,socket) {
     $scope.model_api = Restangular.all('model')
     
+    $scope.vis = {speed: 10,runs: 0};
+
+$scope.showVisualization = function () {
+ console.log("running the visualization")
+ 
+ 
+ }
+
     var p = $scope.model_api.getList();
 
 p.then(function(data) {
    $scope.model = data;
-   console.log(data)
+   //console.log(data)
 })
 
  $scope.runModel = function () {
@@ -127,22 +135,22 @@ p.then(function(data) {
       $scope.journal = data;
     });
     
-console.log($routeParams);
+//console.log($routeParams);
 
   }]).
   controller('NavCtrl',['$scope','$location','$route','$routeParams', function($scope,$location,$route, $routeParams) {
   
   $scope.$on('$routeChangeSuccess', function(ev,rd) {
-  	console.log("pro:",rd.params.project)
+  	//console.log("pro:",rd.params.project)
   	if(rd.params.project !== undefined) {
     console.log("in project:")
     //$scope.project = {}
       $scope.project = $routeParams.project;
   	}
   })
-  console.log("out pro",$routeParams)
+  //console.log("out pro",$routeParams)
   
 
     // write Ctrl here
-console.log("po:",$routeParams.project);
+//console.log("po:",$routeParams.project);
   }]);
