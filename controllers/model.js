@@ -11,7 +11,12 @@ params = req.body
 
 //console.log("run the model with",params)
 
-model.run(params)
-  res.send("ok");
+model.run(params,function(err,data){
+
+  res.send("ok"+err+data);
+})
+
 };
+
+
 
