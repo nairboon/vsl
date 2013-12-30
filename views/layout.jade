@@ -15,15 +15,6 @@ html(ng-app="myApp")
     nav.navbar.navbar-default(ng-controller='NavCtrl')
       .navbar-header
         a.navbar-brand(href='/index') ABST
-      
-      .navbar-collapse.collapse
-            ul.nav.navbar-nav
-              li
-                a(href='/projects') Projects
-              li
-                a(href='/projects/{{project}}/models') Models
-     #nav-bars-container(ng-controller='NavCtrl')
-      a(href='#/{{project.id}}') Foo
 
     block body
 

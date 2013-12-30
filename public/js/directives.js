@@ -73,32 +73,53 @@ var force = d3.layout.force()
         .append("svg")
           .attr("width", width)
           .attr("height", height);
-          
+        
+ var graph = {nodes: [], links:[]};
+ 
 
-      scope.$watch('source', function (graph, oldVal) {
+var first = true
+  
+  
+      scope.$watch('source', function (newVal, oldVal) {
 
-console.log("data changed:",graph)
+console.log("data changed:",newVal)
         // clear the elements inside of the directive
         svg.selectAll('*').remove();
 
         // if 'val' is undefined, exit
-        if (!graph) {
+        if (!newVal) {
           return;
         }
-        
+
+
+if(first ) {
+first = false
+graph.nodes = newVal.nodes;
+graph.links = newVal.links;
 
   force
       .nodes(graph.nodes)
       .links(graph.links)
       .start();
+} else {
+// just update the features
+
+graph.nodes.forEach(function(el,i){
+        el.Features = newVal.nodes[i].Features
+})
+force.start()
+}
+// update the graph object
+
 
   var link = svg.selectAll(".link")
       .data(graph.links)
     .enter().append("line")
       .attr("class", "link")
       .style("stroke-width", function(d) { return Math.sqrt(d.value); });
-
-  var node = svg.selectAll(".node")
+      
+      
+        var node = svg.selectAll(".node")
       .data(graph.nodes)
     .enter().append("circle")
       .attr("class", "node")
@@ -118,6 +139,8 @@ console.log("data changed:",graph)
     node.attr("cx", function(d) { return d.x; })
         .attr("cy", function(d) { return d.y; });
   });
+  
+
 });
 
 
