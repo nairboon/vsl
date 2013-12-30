@@ -13,6 +13,7 @@
     "bootstrap": "~3.0",
     "restangular": "~1.2.0",
     "angular-route": "~1.2.0",
-    "angular-ui-slider": "git@github.com:angular-ui/ui-slider.git#no-jqui-here"
+    "angular-ui-slider": "git@github.com:angular-ui/ui-slider.git#no-jqui-here",
+    "d3": "~3.0.0"
   }
 }

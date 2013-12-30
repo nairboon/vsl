@@ -109,7 +109,7 @@ rl.on('line', function(line) {
 
 var content = JSON.parse(line)
  Model.socketio.emit('model:journal', content);
-    //console.log(content);
+    console.log("send a state");
     
 });
 

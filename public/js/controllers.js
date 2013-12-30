@@ -106,16 +106,37 @@ p.then(function(data) {
 console.log($routeParams);
 
   }]).
-  controller('IndexCtrl',['$scope','$location','$route','$routeParams', 'Restangular','socket', function($scope,$location,$route, $routeParams, Restangular,socket) {
+  controller('IndexCtrl',['$scope','$location','$route','$routeParams', 'Restangular','socket','$interval', function($scope,$location,$route, $routeParams, Restangular,socket,$interval) {
     $scope.model_api = Restangular.all('model')
     
-    $scope.vis = {speed: 10,runs: 0};
+    $scope.journal = []
+    $scope.vis = {speed: 2,runs: 0};
+
+var simulation;
 
 $scope.showVisualization = function () {
+
+if(angular.isDefined(simulation)) {
+ $interval.cancel(simulation);
+  $scope.vis.runs = 0
+}
  console.log("running the visualization")
- 
- 
+
+  simulation = $interval(function() {
+// update the graph
+        if($scope.vis.runs >= $scope.journal.length) {
+         $interval.cancel(simulation);
+         return
+        }
+        $scope.vis.runs++
+
+  }, 1000/$scope.vis.speed); // the greater the speed, the faster the view is updated
  }
+ 
+ $scope.$watch('vis.runs', function (newVal, oldVal) {
+  console.log("redrawing the visualization")
+  $scope.gvnodes = $scope.journal[newVal]
+ })
 
     var p = $scope.model_api.getList();
 
@@ -125,14 +146,18 @@ p.then(function(data) {
 })
 
  $scope.runModel = function () {
+  $scope.journal.length = 0
  console.log("running model")
  //$scope.model_api.customPOST({model: $scope.model},"run")
- $scope.model_api.post({model: $scope.model})
- 
+ $scope.model_api.post({model: $scope.model},$scope.showVisualization)
+
  }
 
     socket.on('model:journal', function (data) {
-      $scope.journal = data;
+    
+      $scope.journal.push(data);
+       $scope.TotalRuns = $scope.journal.length
+      console.log("got some data",data)
     });
     
 //console.log($routeParams);

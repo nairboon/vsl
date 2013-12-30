@@ -18,6 +18,7 @@
           p
             | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
         .col-md-9.column
+          p {{TotalRuns}} runs loaded from the simulation
           form(ng-submit='showVisualization()')
             strong Visualization Speed {{vis.speed}} runs/s
             ui-slider.ui-slider-default
@@ -26,4 +27,5 @@
             ui-slider.ui-slider-default
              ui-slider-thumb(ng-model='vis.runs')             
             button.btn.btn-default(type='submit') Restart
+          graph-visualization(source='gvnodes')
 

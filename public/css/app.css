@@ -1,4 +1,19 @@
 
+
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.link {
+  fill: none;
+  stroke: #bbb;
+}
+
+
+
+
+
 #todoapp {
 	background: #fff;
 	background: rgba(255, 255, 255, 0.9);
