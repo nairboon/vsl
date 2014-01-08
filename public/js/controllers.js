@@ -124,17 +124,21 @@ if(angular.isDefined(simulation)) {
 
   simulation = $interval(function() {
 // update the graph
+        $scope.vis.runs++
+        
         if($scope.vis.runs >= $scope.journal.length) {
          $interval.cancel(simulation);
          return
         }
-        $scope.vis.runs++
+
 
   }, 1000/$scope.vis.speed); // the greater the speed, the faster the view is updated
  }
  
  $scope.$watch('vis.runs', function (newVal, oldVal) {
+
   console.log("redrawing the visualization")
+
   $scope.gvnodes = $scope.journal[newVal]
  })
 

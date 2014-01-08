@@ -81,7 +81,9 @@ var first = true
   
   
       scope.$watch('source', function (newVal, oldVal) {
-
+   if(newVal === undefined) { // update only if there is some data
+   return
+   }
 console.log("data changed:",newVal)
         // clear the elements inside of the directive
         svg.selectAll('*').remove();
