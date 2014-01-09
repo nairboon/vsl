@@ -25,9 +25,9 @@
              ui-slider-thumb(ng-model='vis.speed')
             strong Visualization Progress {{vis.runs}} runs
             ui-slider.ui-slider-default
-             ui-slider-thumb(ng-model='vis.runs')             
+             ui-slider-thumb(ng-model='vis.runs',max='TotalRuns')             
             button.btn.btn-default(type='submit') Start
           form(ng-submit='stopVisualization()')
             button.btn.btn-default(type='submit') Stop
-          graph-visualization(source='gvnodes')
+          graph-visualization(source='gvnodes',restart='gvreset')
 

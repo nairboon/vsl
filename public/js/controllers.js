@@ -107,12 +107,21 @@ console.log($routeParams);
 
   }]).
   controller('IndexCtrl',['$scope','$location','$route','$routeParams', 'Restangular','socket','$interval', function($scope,$location,$route, $routeParams, Restangular,socket,$interval) {
-    $scope.model_api = Restangular.all('model')
+
     
     $scope.journal = []
     $scope.vis = {speed: 2,runs: 0};
-
+        $scope.gvreset = {};
+    $scope.model_api = Restangular.all('model')
+    
 var simulation;
+
+$scope.stopVisualization = function () {
+console.log("stop visualization")
+if(angular.isDefined(simulation)) {
+ $interval.cancel(simulation);
+}
+}
 
 $scope.showVisualization = function (pos) {
 
@@ -123,9 +132,11 @@ if(angular.isDefined(simulation)) {
  } else {
    $scope.vis.runs = pos
  }
-
+ simulation = undefined
+ return
 }
- console.log("running the visualization")
+ console.log("running the visualization")       
+$scope.gvreset.resetVisualization()
 
   simulation = $interval(function() {
 // update the graph
@@ -136,19 +147,23 @@ if(angular.isDefined(simulation)) {
          return
         }
 
-
   }, 1000/$scope.vis.speed); // the greater the speed, the faster the view is updated
  }
   $scope.$watch('vis.speed', function (newVal, oldVal) {
   // resume visualization with a different speed
+  console.log("speed change")
+  if(angular.isDefined(simulation)) {
    $scope.showVisualization($scope.vis.runs)
+   }
   })
   
  $scope.$watch('vis.runs', function (newVal, oldVal) {
 
-  console.log("redrawing the visualization")
 
+ if($scope.journal[newVal] !== undefined) {
+   console.log("redrawing the visualization")
   $scope.gvnodes = $scope.journal[newVal]
+  }
  })
 
     var p = $scope.model_api.getList();
@@ -172,8 +187,7 @@ p.then(function(data) {
        $scope.TotalRuns = $scope.journal.length
       //console.log("got some data",data)
     });
-    
-//console.log($routeParams);
+
 
   }]).
   controller('NavCtrl',['$scope','$location','$route','$routeParams', function($scope,$location,$route, $routeParams) {

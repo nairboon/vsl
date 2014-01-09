@@ -62,6 +62,7 @@ var color = d3.scale.category20();
     restrict: 'E',
     scope: {
       source: '=',
+      restart: '=',
     },
     link: function (scope, element, attrs) {
 
@@ -85,19 +86,32 @@ var force = d3.layout.force()
            
               var  redraw = function() {
   fg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
-  console.log("zoomd")
+
 }
 
           svg.call(d3.behavior.zoom().on("zoom", redraw));
         
-        var node = fg.selectAll(".node"),
-    link = fg.selectAll(".link");
     
+function assert(condition, message) {
+    if (!condition) {
+        throw message || "Assertion failed";
+    }
+}
 
 
 var start = function() {
-  link = link.data(force.links(), function(d) { return d.source.id + "-" + d.target.id; });
+        var node = fg.selectAll(".node"),
+    link = fg.selectAll(".link");
+    
+  link = link.data(force.links(), function(d) { 
+  assert(typeof d.source.id === "number");
+    assert(typeof d.target.id === "number");
+    
+  //console.log("d:",d.source.id, d.target.id, " max ", force.nodes().length)
+  return d.source.id + "-" + d.target.id; });
+  
   link.enter().insert("line", ".node").attr("class", "link");
+  
   link.exit().remove();
 
   node = node.data(force.nodes(), function(d) { return d.id;});
@@ -107,12 +121,16 @@ var start = function() {
   node.enter().append("circle").attr("class", function(d) { return "node " + d.id; }).attr("r", 5).call(force.drag);
   node.exit().remove();
 
+console.log("force start")
   force.start();
-  console.log("starting force on", force.links().length, force.nodes().length)
+  //console.log("starting force on", force.links().length, force.nodes().length)
 }
 
 
   force.on("tick", function() {
+        var node = fg.selectAll(".node"),
+    link = fg.selectAll(".link");
+        
     link.attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
@@ -126,8 +144,16 @@ var start = function() {
 
 var first = true
   
-  
+  scope.restart.resetVisualization = function() {
+  console.log("reset vis")
+  first = true
+  fg.selectAll('*').remove();
+  force.nodes([])
+    force.nodes([])
+  }
+
 scope.$watch('source', function (newVal, oldVal) {
+console.log("count:", force.links().length, " - ", force.nodes().length)
    if(newVal === undefined) { // update only if there is some data
    return
    }
@@ -140,39 +166,51 @@ scope.$watch('source', function (newVal, oldVal) {
           return;
         }
 
+var findNode = function(id) {
+    for (var i in force.nodes()) {
+        if (force.nodes()[i]["id"] == id) return force.nodes()[i]
+    };
+    return null;
+}
+
 
 if(first ) {
 first = false
-/*
-graph.nodes = newVal.nodes;
-graph.links = newVal.links;*/
 
  // graph.links.push({source: a, target: b}, {source: a, target: c}, {source: b, target: c});
 
  newVal.nodes.forEach(function(el,i){
   var n = {Features: el.Features, id: el.Agent.index}
- console.log(el,i)
-    graph.nodes.push( n);
+ console.log("ADDING:",n,i)
+    force.nodes().push( n);
  })
        start();
-       
- newVal.links.forEach(function(el,i){
+       //graph.links.pop()
+ newVal.links.forEach(function(link,i){
         
-        var link = {source: graph.nodes[el.source], target: graph.nodes[el.target]}
- console.log(el, link)
-    graph.links.push( link);
+        //var link = {source: force.nodes()[el.source], target: force.nodes()[el.target]}
+        if(findNode(link.source)!= null && findNode(link.target)!= null) {        
+        force.links().push ({
+            "source":findNode(link.source),
+            "target":findNode(link.target)
+        })
+    } else {
+    console.log("1.st PAPAAPPASNIC:", link.source, link.target,findNode(link.source), findNode(link.target))
+    }
+    
+// console.log(el, link)
+
  })
+ 
  //graph.nodes.push.apply(graph.nodes, newVal.nodes)
  // graph.links.push.apply(graph.links, newVal.links)
-  
- /* force
-      .nodes(graph.nodes)
-      .links(graph.links)
- */
       start();
 } else {
-
+console.log("SECOND")
 // just update the features & position & links
+force.links([])
+//start()
+
 /*
 //graph.linksnewVal.links);
 graph.links = force.links();
@@ -180,24 +218,40 @@ graph.links = force.links();
 
 newVal.links.forEach(function(el,i){
 // add new links
-var link = {value: 1, source: graph.nodes[el.source], target: graph.nodes[el.source]}
-//graph.links.push(link)
+
 
 })
 //force.links(graph.links)
 //force.tick()
 console.log(graph.links)
 */
-graph.links = []
- newVal.links.forEach(function(el,i){
-        
-        var link = {source: graph.nodes[el.source], target: graph.nodes[el.target]}
- console.log(el.source, el, link)
-    graph.links.push( link);
- })
- 
+//graph.links = []
+//var link = {value: 1, source: findNode(0), target: findNode(1)}
+//force.links().push(link)
+//start()
 
-graph.nodes.forEach(function(el,i){
+ newVal.links.forEach(function(link,i){
+        
+        //var link = {source: graph.nodes[2], target: graph.nodes[3]}
+ //console.log(el.source, el, link)
+ 
+ if(findNode(link.source)!= null && findNode(link.target)!= null) {  
+        var l = {
+            "source":findNode(link.source),
+            "target":findNode(link.target)
+        }
+       
+        force.links().push (l)
+       // console.log(l)
+    } else {
+    console.log("2. PAPAAPPASNIC:!! ", findNode(link.source), findNode(link.target), link.source, link.target)
+    }
+    
+ })
+// graph.links
+
+force.nodes().forEach(function(el,i){
+//console.log(el,i)
         el.Features = newVal.nodes[i].Features
 
         if (newVal.nodes[i].Agent.x !== undefined) {
@@ -210,8 +264,10 @@ graph.nodes.forEach(function(el,i){
         }
         
 })
-//force.tick()
 start()
+
+//force.tick()
+
 
 }
 
