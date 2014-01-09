@@ -8,11 +8,11 @@
       .row.clearfix
         .col-md-3.column
           form(role='form',ng-submit='runModel()')
+             button.btn.btn-default(type='submit') Start
              div(ng-repeat='param in model')
               .form-group
                 label(for='{{param.name}}') {{param.name}}
                 input.form-control(ng-model='param.default')
-             button.btn.btn-default(type='submit') Start
           h2
             | Model Description
           p
@@ -26,6 +26,8 @@
             strong Visualization Progress {{vis.runs}} runs
             ui-slider.ui-slider-default
              ui-slider-thumb(ng-model='vis.runs')             
-            button.btn.btn-default(type='submit') Restart
+            button.btn.btn-default(type='submit') Start
+          form(ng-submit='stopVisualization()')
+            button.btn.btn-default(type='submit') Stop
           graph-visualization(source='gvnodes')
 

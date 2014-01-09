@@ -1,6 +1,9 @@
 var fs = require("fs"),
 
     readline = require('readline'),
+     byline = require('byline'),
+     zlib = require('zlib'),
+     Stream = require('stream'),
 spawn = require('child_process').spawn;
 var StreamSplitter = require("stream-splitter");
 var StringScanner = require("StringScanner");
@@ -20,7 +23,7 @@ Model.exe = file
 /* read flags*/
 var proc = spawn(file,["--help"]);
 proc.on("error",function(err){
-console.log("model is not executable?")
+console.log("model is not executable?", err)
 cb(err,null)
 })
 var splitter = proc.stderr.pipe(StreamSplitter("\n"));
@@ -65,7 +68,7 @@ params.model.forEach(function(item){
 })
 //add abst params
 ParamDesc.push("-abst.journal=true")
-ParamDesc.push("-abst.logtofile=true")
+ParamDesc.push("-abst.logtofile=false")
 ParamDesc.push("-abst.out=.abst_output")
 ParamDesc.push("-abst.runid="+runid)
 
@@ -77,55 +80,72 @@ var proc = spawn(Model.exe,ParamDesc);
 //start the journal streaming
 var outpath =".abst_output/goabm."+runid
 
-var journal = outpath +"/journal"
+var journal = outpath +"/journal.gz"
 
 /*if(!fs.existsSync(outpath)) {
         fs.mkdirSync(outpath)
 }*/
 
-
-var gw = fs.watch(".abst_output", function (event, filename) {
+var parseJournal = function() {
+console.log("parse Journal..")
+/*var gw = fs.watch(".abst_output", function (event, filename) {
 
   if (filename == "goabm."+runid) {
    // console.log('filename provided: ' + filename);
     var jw = fs.watch(outpath, { persistent: false},function (event, filename) {
-        if(filename == "journal") {
+        if(filename == "journal.gz") {
         // dirty hack to wat for the journal to be created
         // would be usefule to have someting like. child_proces.on("ready")
         //console.log("journal ready")
         jw.close()
         gw.close()
+        */
         
-        
-        var instream = fs.createReadStream(journal);
-console.log("reading journal..")
+var fstream = fs.createReadStream(journal/*, { encoding: 'utf8' }*/);
+var unzip = new Stream()
+gzip = zlib.createGunzip()
 
-var rl = readline.createInterface({
-    input: instream,
-    terminal: false
-});
+
+        var stream = byline.createStream();
+        
+
+
+        fstream.pipe(gzip).pipe(stream)//.pipe(process.stdout)
+console.log("reading journal..", journal)
+
+       /* gzip.on('data', function(chunk) {
+  console.log('got %d bytes of data %s', chunk.length,chunk.toString());
+})*/
+
+fstream.on('end', function() {
+ console.log("done with input")
+})
+
 
 var lines = 0;
 
-rl.on('line', function(line) {
+stream.on('data', function(line) {
 lines++
 var content = JSON.parse(line)
  Model.socketio.emit('model:journal', content);
     console.log("send a state");
 });
 
-rl.on('close',function() {
+stream.on('close',function() {
 console.log("done streaming journal"+ journal+" with " + lines + " states")
+done(null,null)
 });
 
         }
-    })
+ /*   })
   }
-});
+});*/
+
+
 
 
 proc.stdout.on("data",function(data){
-console.log(data.toString())
+process.stdout.write(data.toString())
 })
 
 
@@ -140,7 +160,8 @@ proc.stderr.on('data', function (data) {
 
 proc.on("close",function(code){
 console.log("model exited with"+code)
-done(null,null)
+parseJournal()
+
 })
 
 }

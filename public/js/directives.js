@@ -111,8 +111,8 @@ graph.nodes.forEach(function(el,i){
         el.Features = newVal.nodes[i].Features
         if (newVal.nodes[i].Agent.x !== undefined) {
                 el.fixed = true
-                el.x = newVal.nodes[i].Agent.x * scale + width/2;
-                el.y = newVal.nodes[i].Agent.y * scale + height/2;
+                el.x = newVal.nodes[i].Agent.x * scale + 40;
+                el.y = newVal.nodes[i].Agent.y * scale + 40;
                 el.px = el.x
                 el.py = el.y
                 console.log(el.x,el.y)
