@@ -114,11 +114,16 @@ console.log($routeParams);
 
 var simulation;
 
-$scope.showVisualization = function () {
+$scope.showVisualization = function (pos) {
 
 if(angular.isDefined(simulation)) {
  $interval.cancel(simulation);
-  $scope.vis.runs = 0
+ if(pos === undefined) {
+   $scope.vis.runs = 0
+ } else {
+   $scope.vis.runs = pos
+ }
+
 }
  console.log("running the visualization")
 
@@ -134,7 +139,11 @@ if(angular.isDefined(simulation)) {
 
   }, 1000/$scope.vis.speed); // the greater the speed, the faster the view is updated
  }
- 
+  $scope.$watch('vis.speed', function (newVal, oldVal) {
+  // resume visualization with a different speed
+   $scope.showVisualization($scope.vis.runs)
+  })
+  
  $scope.$watch('vis.runs', function (newVal, oldVal) {
 
   console.log("redrawing the visualization")

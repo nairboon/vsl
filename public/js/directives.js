@@ -54,7 +54,8 @@ myApp.directive('graphVisualization', function () {
 
   // constants
 var width = 960,
-    height = 500;
+    height = 500,
+    scale = 50;
 var color = d3.scale.category20();
 
   return {
@@ -104,11 +105,21 @@ graph.links = newVal.links;
       .links(graph.links)
       .start();
 } else {
-// just update the features
+// just update the features & position
 
 graph.nodes.forEach(function(el,i){
         el.Features = newVal.nodes[i].Features
+        if (newVal.nodes[i].Agent.x !== undefined) {
+                el.fixed = true
+                el.x = newVal.nodes[i].Agent.x * scale + width/2;
+                el.y = newVal.nodes[i].Agent.y * scale + height/2;
+                el.px = el.x
+                el.py = el.y
+                console.log(el.x,el.y)
+        }
+        
 })
+//force.tick()
 force.start()
 }
 // update the graph object
@@ -129,8 +140,13 @@ force.start()
       .style("fill", function(d) { return color(d.Features[0]); })
       .call(force.drag);
 
-  node.append("title")
-      .text(function(d) { return d.name; });
+//  node.append("title")
+  //    .text(function(d) { return d.x + "-" +d.y; });
+      
+       node.append("text")
+      .attr("dx", 12)
+      .attr("dy", ".35em")
+      .text(function(d) { return "jajajaja" });
 
   force.on("tick", function() {
     link.attr("x1", function(d) { return d.source.x; })

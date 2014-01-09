@@ -105,12 +105,17 @@ var rl = readline.createInterface({
     terminal: false
 });
 
-rl.on('line', function(line) {
+var lines = 0;
 
+rl.on('line', function(line) {
+lines++
 var content = JSON.parse(line)
  Model.socketio.emit('model:journal', content);
     console.log("send a state");
-    
+});
+
+rl.on('close',function() {
+console.log("done streaming journal"+ journal+" with " + lines + " states")
 });
 
         }
