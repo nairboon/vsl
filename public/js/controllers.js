@@ -170,7 +170,7 @@ p.then(function(data) {
     
       $scope.journal.push(data);
        $scope.TotalRuns = $scope.journal.length
-      console.log("got some data",data)
+      //console.log("got some data",data)
     });
     
 //console.log($routeParams);
